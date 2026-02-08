@@ -1,104 +1,76 @@
-.modal-overlay {
+﻿.modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(8px);
+  inset: 0;
+  background: rgba(3, 8, 20, 0.7);
   display: flex;
-  align-items: center;
   justify-content: center;
-  z-index: 2000;
-  padding: 1rem;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(8px);
+  animation: fadeIn 0.2s ease-in;
 }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 .modal-content {
-  background: var(--bg-card);
-  border: 2px solid var(--rock-border);
-  padding: 3rem;
-  width: 100%;
-  max-width: 450px;
+  background: var(--surface);
+  clip-path: polygon(1% 0%, 99% 2%, 100% 98%, 97% 100%, 2% 99%, 0% 95%);
+  padding: 3rem 2rem;
+  max-width: 440px;
+  width: 92%;
   position: relative;
-  clip-path: polygon(5% 0%, 95% 2%, 100% 10%, 98% 90%, 92% 100%, 8% 98%, 0% 92%, 2% 8%);
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.modal-content::after {
+.modal-content::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox=\"0 0 100 100\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cfilter id=\"noise\"%3E%3CfeTurbulence type=\"fractalNoise\" baseFrequency=\"0.8\" numOctaves=\"4\" stitchTiles=\"stitch\"/%3E%3C/filter%3E%3Crect width=\"100%25\" height=\"100%25\" filter=\"url(%23noise)\" opacity=\"0.08\"/%3E%3C/svg%3E");
   pointer-events: none;
+  opacity: 0.6;
 }
 
-.modal-content h2 {
-  margin: 0;
-  text-align: center;
-  color: var(--accent);
-  font-size: 2rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-.modal-content input {
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid var(--rock-border);
-  padding: 1rem;
-  color: white;
-  border-radius: 4px;
-  font-family: inherit;
-}
-
-.modal-content input:focus {
-  outline: none;
-  border-color: var(--accent);
-}
-
-.modal-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.modal-actions button {
-  padding: 1rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.modal-actions button:first-child {
-  background: var(--accent);
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(0, 242, 255, 0.1);
   border: none;
-  color: var(--bg-dark);
+  font-size: 1.75rem;
+  cursor: pointer;
+  color: var(--ink-soft);
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
 }
 
-.modal-actions button:last-child {
-  background: transparent;
-  border: 1px solid var(--muted);
-  color: var(--muted);
-}
+.modal-content h2 { margin: 0 0 0.5rem; color: var(--ink); font-size: 1.8rem; }
+.modal-description { color: var(--ink-soft); margin-bottom: 1.5rem; font-size: 0.95rem; }
 
-.modal-actions button:hover {
-  transform: scale(1.02);
-  filter: brightness(1.1);
-}
-
-.error {
-  color: #ff4a4a;
-  background: rgba(255, 74, 74, 0.1);
+.form-group { margin-bottom: 1.25rem; }
+.form-group label { display: block; margin-bottom: 0.5rem; color: var(--ink); font-weight: 600; font-size: 0.9rem; }
+.form-group input {
+  width: 100%;
   padding: 0.75rem;
-  border-radius: 4px;
-  border: 1px solid rgba(255, 74, 74, 0.2);
-  text-align: center;
-  font-size: 0.9rem;
-  margin: 0;
+  border: 1px solid rgba(0, 242, 255, 0.25);
+  border-radius: 8px;
+  background: rgba(29, 23, 18, 0.9);
+  color: var(--ink);
 }
+
+.login-button {
+  width: 100%;
+  padding: 0.875rem;
+  background: linear-gradient(135deg, #00f2ff, #bcff00);
+  color: #1b1008;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
