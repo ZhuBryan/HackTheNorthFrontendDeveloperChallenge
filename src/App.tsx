@@ -51,12 +51,19 @@ function App() {
   const handleLogout = () => setIsLoggedIn(false);
 
   const handleRelatedEventClick = (eventId: number) => {
-    setHighlightedEventId(eventId);
-    const element = document.getElementById(`event-${eventId}`);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "center" });
-      setTimeout(() => setHighlightedEventId(null), 2000);
-    }
+    // Clear filters to ensure the target event is visible
+    setSearchQuery("");
+    setSelectedEventType("all");
+    
+    // Use setTimeout to wait for state updates and re-rendering
+    setTimeout(() => {
+      setHighlightedEventId(eventId);
+      const element = document.getElementById(`event-${eventId}`);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "center" });
+        setTimeout(() => setHighlightedEventId(null), 2000);
+      }
+    }, 100);
   };
 
   const filteredEvents = useMemo(() => {

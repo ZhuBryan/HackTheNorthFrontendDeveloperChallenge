@@ -4,4 +4,3 @@ dist
 .vscode
 *.tsbuildinfo
 package-lock.json
-public/assets/background.png

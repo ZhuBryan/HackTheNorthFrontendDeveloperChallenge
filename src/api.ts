@@ -23,3 +23,24 @@ export async function fetchAllEvents(): Promise<TEvent[]> {
     throw error;
   }
 }
+
+/**
+ * Fetch a specific event by ID
+ */
+export async function fetchEventById(id: number): Promise<TEvent> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/events/${id}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data: TEndpointResponse = await response.json();
+
+    if (Array.isArray(data)) {
+      return data[0];
+    }
+    return data;
+  } catch (error) {
+    console.error(`Error fetching event ${id}:`, error);
+    throw error;
+  }
+}
