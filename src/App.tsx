@@ -18,8 +18,16 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string>();
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   const [selectedEventType, setSelectedEventType] = useState<TEventType | "all">("all");
   const [highlightedEventId, setHighlightedEventId] = useState<number | null>(null);
+
+  const EVENTS_PER_PAGE = 6;
+
+  useEffect(() => {
+    // Reset to page 1 when filters change
+    setCurrentPage(1);
+  }, [searchQuery, selectedEventType, isLoggedIn]);
 
   useEffect(() => {
     const loadEvents = async () => {
@@ -51,9 +59,16 @@ function App() {
   const handleLogout = () => setIsLoggedIn(false);
 
   const handleRelatedEventClick = (eventId: number) => {
-    // Clear filters to ensure the target event is visible
-    setSearchQuery("");
-    setSelectedEventType("all");
+    // Find which page the specific event is on
+    const eventIndex = filteredEvents.findIndex(e => e.id === eventId);
+    if (eventIndex !== -1) {
+      const pageIndex = Math.floor(eventIndex / EVENTS_PER_PAGE) + 1;
+      setCurrentPage(pageIndex);
+    } else {
+      // Clear filters to ensure the target event is visible
+      setSearchQuery("");
+      setSelectedEventType("all");
+    }
     
     // Use setTimeout to wait for state updates and re-rendering
     setTimeout(() => {
@@ -84,6 +99,12 @@ function App() {
     }
     return sortEventsByStartTime(filtered);
   }, [events, isLoggedIn, searchQuery, selectedEventType]);
+
+  const totalPages = Math.ceil(filteredEvents.length / EVENTS_PER_PAGE);
+  const paginatedEvents = useMemo(() => {
+    const start = (currentPage - 1) * EVENTS_PER_PAGE;
+    return filteredEvents.slice(start, start + EVENTS_PER_PAGE);
+  }, [filteredEvents, currentPage]);
 
   const eventTypes: (TEventType | "all")[] = ["all", "workshop", "activity", "tech_talk"];
 
@@ -219,10 +240,10 @@ function App() {
         ) : (
           <>
             <div className="events-count" id="events">
-              Showing {filteredEvents.length} event{filteredEvents.length !== 1 ? "s" : ""}
+              Showing {paginatedEvents.length} of {filteredEvents.length} event{filteredEvents.length !== 1 ? "s" : ""}
             </div>
             <div className="events-grid">
-              {filteredEvents.map((event, index) => (
+              {paginatedEvents.map((event, index) => (
                 <div
                   key={event.id}
                   id={`event-${event.id}`}
@@ -238,6 +259,28 @@ function App() {
                 </div>
               ))}
             </div>
+
+            {totalPages > 1 && (
+              <nav className="pagination" aria-label="Pagination">
+                <button
+                  onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                  disabled={currentPage === 1}
+                  className="pagination-btn prev"
+                >
+                  Previous
+                </button>
+                <div className="pagination-info">
+                  Page <span className="current-page">{currentPage}</span> of {totalPages}
+                </div>
+                <button
+                  onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                  disabled={currentPage === totalPages}
+                  className="pagination-btn next"
+                >
+                  Next
+                </button>
+              </nav>
+            )}
           </>
         )}
       </main>
