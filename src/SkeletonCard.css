@@ -1,0 +1,29 @@
+.skeleton-card {
+  height: 400px;
+  background: rgba(30, 38, 44, 0.4);
+  clip-path: polygon(2% 0%, 98% 1%, 100% 4%, 100% 96%, 98% 100%, 2% 99%, 0% 95%, 0% 5%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(50%); }
+}
