@@ -93,5 +93,5 @@ I really like the handcrafted, artsy vibe of HTN's website right now, especially
 
 ---
 
-**Contact**: b88zhu@uwaterloo.ca
+**Contact**: bryan.zhu89@gmail.com
 **Submission Date**: February 8, 2026
