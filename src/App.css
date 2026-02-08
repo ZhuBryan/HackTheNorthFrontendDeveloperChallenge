@@ -155,6 +155,7 @@
   font-weight: 800;
   color: var(--accent);
   font-family: monospace;
+  margin-top: auto;
 }
 
 .login-button-header, .secondary-cta {
